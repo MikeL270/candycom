@@ -99,10 +99,10 @@ Next you want to create a function that works as your main execution loop for Ca
 async def connect_to_candy_machine(): # cheaky async function to wrap conneciton establisment
     await com.establish_connection()
 
-def candycom_process(conn): #conn is one of the two Pipe objects we instanced earlier
+def candycom_process_func(conn): #conn is one of the two Pipe objects we instanced earlier
     global com
     com = candycom.HostComms('serial')
-    asyncio.run(connect_to_candy_machine)
+    asyncio.run(connect_to_candy_machine())
     while com.is_connected:
         if conn.poll():
             message = conn.recv()
@@ -119,7 +119,7 @@ Now we will create and run CandyCom's process.
 ```python
 def start_candycom():
     global candycom_process
-    candycom_process = Process(target=candycom_process, args=(child_conn), daemon=True)
+    candycom_process = Process(target=candycom_process, args=(child_conn,), daemon=True)
     candycom_process.start()
     return candycom_process
 

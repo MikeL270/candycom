@@ -12,3 +12,9 @@ GIRRLS dispenser: https://github.com/cwcpalmer/candy_dispenser_enhancement, http
 
 CandyCom is planned to be released on PyPi so that it may be installed via pip, Please be patient while we work this out.
 
+## Quickstart
+
+First, import the modlue
+
+```python
+import candycom

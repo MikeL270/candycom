@@ -1,16 +1,15 @@
 # Asyncio based rewrite of candycom
 # Written by Michael Lance & Thomas Baker
 # 3/5/2024
-# Updated: 3/26/2024
+# Updated: 5/30/2024
 #---------------------------------------------------------------------------------------------------#
 import asyncio
 import sys
 import time
-import candyble
-
+from .candyble import *
 # import different libraries depending upon platform
 if sys.implementation.name != 'circuitpython':
-    import candyserial
+    from .candyserial import *
     usb_cdc = None # Used to appease the python interpreter
     motorcontrol = None
     digitalio = None
@@ -256,7 +255,7 @@ class ClientComms:
             
         elif self.comm_mode == "ble":
             print("BLE enabled: waiting for host...")
-            self.ble_ser = candyble.BleClient()
+            self.ble_ser = BleClient()
             self.ble_ser.connect()
 
         print("Waiting for connection to be established")
@@ -468,11 +467,11 @@ class HostComms:
     # Create Async Method to handle the connection
     async def establish_connection(self): # Send "connect" command until ack is sent back
         if self.comm_mode == "serial":
-            self.candyser = candyserial.usb_serial()
+            self.candyser = usb_serial()
             self.candyser.flush_ser_buffer()
         elif self.comm_mode == "ble":
             print("BLE enabled... Searching for client...")
-            self.ble_ser = candyble.BleHost()
+            self.ble_ser = BleHost()
             self.ble_ser.connect()
         print("attempting to establish connection")
         if is_arduino:
